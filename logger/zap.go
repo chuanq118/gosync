@@ -116,3 +116,19 @@ func Panicf(template string, args ...interface{}) {
 func Panicw(msg string, keysAndValues ...interface{}) {
 	log.Sugar().Panicw(msg, keysAndValues...)
 }
+
+func Fatal(args ...interface{}) {
+	log.Sugar().Fatal(args)
+}
+
+func Fatalln(args ...interface{}) {
+	log.Sugar().Fatalln(args)
+}
+
+func Fatalf(template string, args ...interface{}) {
+	log.Sugar().Fatalf(template, args)
+}
+
+func Fatalw(msg string, keysAndValues ...interface{}) {
+	log.Sugar().Fatalw(msg, keysAndValues)
+}

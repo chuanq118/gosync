@@ -7,8 +7,6 @@ import (
 	"path/filepath"
 )
 
-var printer = logger.Log.Sugar()
-
 func recursiveAdd(name string, watcher *fsnotify.Watcher) error {
 	files, err := os.ReadDir(name)
 	if err != nil {
@@ -40,7 +38,12 @@ func watch(base string) error {
 	if err != nil {
 		return err
 	}
-	defer watcher.Close()
+	defer func(watcher *fsnotify.Watcher) {
+		err := watcher.Close()
+		if err != nil {
+			logger.Fatal(err)
+		}
+	}(watcher)
 
 	// Start listening for events.
 	go func() {
@@ -50,26 +53,26 @@ func watch(base string) error {
 				if !ok {
 					return
 				}
-				printer.Infoln("event:", event)
+				logger.Infoln("event:", event)
 				// 处理新文件被创建
 				if event.Has(fsnotify.Create) {
 					// 判断是否为文件夹
 					stat, err := os.Stat(event.Name)
 					if err != nil {
-						printer.Fatal(err)
+						logger.Fatal(err)
 						return
 					}
 					if stat.IsDir() {
 						err = watcher.Add(event.Name)
 						if err != nil {
-							printer.Fatal(err)
+							logger.Fatal(err)
 							return
 						}
 					}
 				} else if event.Has(fsnotify.Write) {
 
 				} else if event.Has(fsnotify.Rename) {
-					
+
 				} else if event.Has(fsnotify.Remove) {
 
 				}
@@ -77,7 +80,7 @@ func watch(base string) error {
 				if !ok {
 					return
 				}
-				printer.Error("error:", err)
+				logger.Error("error:", err)
 			}
 		}
 	}()
