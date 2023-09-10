@@ -15,3 +15,15 @@ type CloudObject struct {
 	Bytes int64  `json:"bytes"`
 	MD5   string `json:"md5"`
 }
+
+// SyncBlockConfig is a struct that describes the configuration of a sync block.
+type SyncBlockConfig struct {
+	// unique id
+	Id int `json:"id"`
+	// local sync directory path
+	LocalPath string `json:"local_path"`
+	// cloud sync directory path
+	CloudPath string `json:"cloud_path"`
+	// last sync datetime
+	LastSyncDatetime string `json:"last_sync_datetime"`
+}

@@ -9,7 +9,7 @@ import (
 
 const AppName = "gosync"
 
-var RunningHome string = ""
+var RunningHome = ""
 
 func ResolveRunningHome(specifiedPath string) {
 	if specifiedPath == "" {
